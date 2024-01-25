@@ -4,6 +4,7 @@ import java.io.*;
 public class DataPack implements Serializable{
     String type;
     Object data;
+
     public DataPack(String type, Object data) {
         this.type = type;
         this.data = data;

@@ -1,56 +1,52 @@
 package org.example;
 
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Queue;
 
-public class Game {
-    private ArrayList<Question> questions;
-    private HashMap<String,Integer> userToScore;
-    private int numberOfQuestions;
-    private int time;
-    private String gameType;
+public class Game extends RoundGenerator{
+    private Queue<String> players;
 
-
-    public Game(HashMap<String, Integer> userToScore, int numberOfQuestions, int time, String gameType) {
-        this.userToScore = userToScore;
-        this.numberOfQuestions = numberOfQuestions;
-        this.time = time;
-        this.gameType = gameType;
+    public Game(HashMap<String, Integer> userToScore, String type, Queue<String> players) {
+        super(userToScore,type);
+        this.players = players;
     }
 
-    public ArrayList<Question> getQuestions() {
-        return questions;
+    public void startGame(String typeGame , int round){
+        HashMap<String,Integer> userToScore = new HashMap<>();
+
+        if (players.size()==2){
+            userToScore.put(players.poll() , 0);
+            userToScore.put(players.poll() , 0);
+
+            for (int j = 0; j < 3 ; j++){
+                DataPack type = new DataPack("type",Server.ConnectionHandler.in);
+                String strType = (String) type.data ;
+
+                for (int i = 0; i < 3; i++) {
+                    Round game= new Round(userToScore);
+                    game.roundControl(strType);
+                    HashMap<String , Integer> tmp = game.getUserToScore();
+                    for (String key : tmp.keySet()){
+                        if(userToScore.containsKey(key)){
+                            userToScore.put(key , userToScore.get(key) + tmp.get(key));
+                        }
+                        else
+                            userToScore.put(key , tmp.get(key));
+                    }
+                }
+
+            }
+
+
+
+        }
     }
 
-    public void setQuestions(ArrayList<Question> questions) {
-        this.questions = questions;
+    public void request(String userName , int round){
+        players.add(userName);
+        //thread needed
+        startGame(userName , round);
     }
 
-    public HashMap<String, Integer> getUserToScore() {
-        return userToScore;
-    }
-
-    public void setUserToScore(HashMap<String, Integer> userToScore) {
-        this.userToScore = userToScore;
-    }
-
-    public int getNumberOfQuestions() {
-        return numberOfQuestions;
-    }
-
-    public void setNumberOfQuestions(int numberOfQuestions) {
-        this.numberOfQuestions = numberOfQuestions;
-    }
-
-    public int getTime() {
-        return time;
-    }
-
-    public void setTime(int time) {
-        this.time = time;
-    }
-
-    //TODO
-    //random generator for q
 
 }

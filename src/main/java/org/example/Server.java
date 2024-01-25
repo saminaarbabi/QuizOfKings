@@ -2,10 +2,7 @@ package org.example;
 
 import com.google.gson.Gson;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -14,7 +11,7 @@ import java.util.concurrent.Executors;
 
 public class Server implements Runnable {
     private ArrayList<ConnectionHandler> connectionHandlers ;
-    private ServerSocket serverSocket ;
+    private  ServerSocket serverSocket ;
     private boolean done ;
     private ExecutorService pool ;
 
@@ -54,8 +51,9 @@ public class Server implements Runnable {
 
     class  ConnectionHandler implements Runnable{
         private Socket client ;
-        private BufferedReader in ;
-        private PrintWriter out ;
+
+        public static ObjectOutputStream out ;
+        public static ObjectInputStream in ;
 
         public ConnectionHandler(Socket client) {
             this.client = client;
@@ -64,8 +62,10 @@ public class Server implements Runnable {
         @Override
         public void run() {
             try {
-                out = new PrintWriter(client.getOutputStream() , true) ;
-                in = new BufferedReader(new InputStreamReader(client.getInputStream())) ;
+                out = new ObjectOutputStream(client.getOutputStream()) ;
+                in = new ObjectInputStream(client.getInputStream()) ;
+
+
                 DB db = DB.getInstance() ;
                 Gson gson = new Gson() ;
                 String type = in.readLine();

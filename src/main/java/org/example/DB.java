@@ -30,7 +30,7 @@ public class DB {
         setConnection();
 
         try {
-            PreparedStatement statement = connection.prepareStatement("INSERT INTO players (username,password,email,phonenumber) VALUES (?,?,?,?)");
+            statement = connection.prepareStatement("INSERT INTO players (username,password,email,phonenumber) VALUES (?,?,?,?)");
 
             statement.setString(1, username);
             statement.setString(2, password);
@@ -78,8 +78,28 @@ public class DB {
     }
 
 
-    public boolean updateInfo(){
+    public boolean updateInfo(String username, String email, String phoneNumber) {
+        setConnection();
 
+        try {
+            PreparedStatement statement = connection.prepareStatement("UPDATE players SET email = ?, phonenumber = ? WHERE username = ?");
+            statement.setString(1, email);
+            statement.setString(2, phoneNumber);
+            statement.setString(3, username);
 
+            int rowsUpdated = statement.executeUpdate();
+
+            if (rowsUpdated > 0) {
+                return true;
+            } else {
+                return false;
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
+
+
+
 }
