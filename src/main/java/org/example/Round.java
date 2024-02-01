@@ -6,7 +6,11 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class Round implements Serializable {
+public class Round implements Serializable{
+
+    public Round() {
+        this.userToScore =null;
+    }
 
     Connection connection;
     Statement statement;
@@ -15,12 +19,6 @@ public class Round implements Serializable {
     private HashMap<String, Integer> userToScore;
 
 
-//    private Question question;
-
-
-    public Round(HashMap<String, Integer> userToScore) {
-        this.userToScore = userToScore;
-    }
 
     public HashMap<String, Integer> getUserToScore() {
         return userToScore;
@@ -34,13 +32,14 @@ public class Round implements Serializable {
 
     public void setConnection() {
         try {
-            DriverManager.getConnection("jdbc:mysql://localhost:3306/sonoo", "root", "root");
+            DriverManager.getConnection("jdbc:mysql://localhost:3306/quizofkings", "root", "Saminaarb8301");
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
     }
 
     public Question randomQuestion(String typeUser) {
+        int id = Integer.parseInt(null);
         String text = null;
         String answer1 = null;
         String answer2 = null;

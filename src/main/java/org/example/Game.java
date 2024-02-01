@@ -3,15 +3,15 @@ package org.example;
 import java.util.HashMap;
 import java.util.Queue;
 
-public class Game extends RoundGenerator{
+public class Game {
     private Queue<String> players;
 
-    public Game(HashMap<String, Integer> userToScore, String type, Queue<String> players) {
-        super(userToScore,type);
-        this.players = players;
+    public Game() {
+        this.players = null;
     }
 
-    public void startGame(String typeGame , int round){
+    public void startGame(){
+
         HashMap<String,Integer> userToScore = new HashMap<>();
 
         if (players.size()==2){
@@ -23,7 +23,7 @@ public class Game extends RoundGenerator{
                 String strType = (String) type.data ;
 
                 for (int i = 0; i < 3; i++) {
-                    Round game= new Round(userToScore);
+                    Round game= new Round();
                     game.roundControl(strType);
                     HashMap<String , Integer> tmp = game.getUserToScore();
                     for (String key : tmp.keySet()){
@@ -37,15 +37,15 @@ public class Game extends RoundGenerator{
 
             }
 
-
-
         }
     }
 
-    public void request(String userName , int round){
+    public void request(String userName){
         players.add(userName);
         //thread needed
-        startGame(userName , round);
+        startGame();
+        //TODO
+        //return the components user id to client
     }
 
 

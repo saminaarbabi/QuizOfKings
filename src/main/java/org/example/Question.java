@@ -11,7 +11,7 @@ public class Question {
     private String correctAnswer;
     private String type;
 
-    public Question(String text, String answers1, String answers2, String answers3, String answers4, String correctAnswer, String type) {
+    public Question( String text, String answers1, String answers2, String answers3, String answers4, String correctAnswer, String type) {
         this.text = text;
         this.answers1 = answers1;
         this.answers2 = answers2;

@@ -3,14 +3,12 @@ package org.example;
 import java.util.HashMap;
 import java.util.Queue;
 
-public class RoundGenerator extends Round{
+public class RoundGenerator{
     private String type;
 
-    public RoundGenerator(HashMap<String, Integer> userToScore,  String type) {
-        super(userToScore);
+    public RoundGenerator(String type) {
         this.type = type;
     }
-
 
 //TODO
     //Ask the type of game
